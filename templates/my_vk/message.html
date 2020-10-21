@@ -1,0 +1,39 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/JS.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/vk.css' %}">
+</head>
+<body>
+<div>from user: {{from_user.login }}</div>
+<div>message to: {{for_user.login }}</div>
+{% if all_messages %}
+Chat
+<div  style="background-color:#FFDAB9" id="messages">
+{%for m in all_messages%}
+<div class="message">
+    <h3 style="{%if m.from_user.login == from_user.login%}color:red; {%endif%}">{{m.from_user}}</h3>{{m.message}}
+    </div>
+{%endfor%}
+{% endif %}
+    </div>
+
+<form action="{% url 'message' for_user.id %}" method="POST" id='message-form'>
+    {% csrf_token %}
+    <input id="message" type='text' name="message">
+    <input type='submit' value="send message">
+</form>
+
+<script>
+    $(document).ready(function(){
+   message()
+})
+
+</script>
+
+</body>
+</html>

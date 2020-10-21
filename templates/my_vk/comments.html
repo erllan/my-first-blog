@@ -1,0 +1,36 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/JS.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/vk.css' %}">
+    <title>Title</title>
+</head>
+<body>
+<div><img id ='imgForComent' src='{{post.post.url}}' width='450' height='600' alt=""></div>
+<div>
+<form action="{% url 'comment_add' post.id %}" method="post" id="comment-form">
+    {%csrf_token%}
+    <input id ='comment' type="text" name="comment">
+    <input id = 'send' type='submit' value="отправить">
+</form>
+<div id = 'mycomment'></div>
+
+{% if comments%}
+{% for comment in comments%}
+<div class= 'comments'>
+   <h3> {{comment.from_user.login}}</h3>
+    {{comment.comment}}
+</div>
+{%endfor%}
+{%endif%}
+</div>
+<script>
+$(document).ready(function(){
+comment()
+})
+</script>
+
+</body>
+</html>

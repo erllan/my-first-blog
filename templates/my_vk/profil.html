@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if profil %}
+<div class="profile">
+    <div class="danny">
+        <img class="profil-img" src="{{profil.avatar.url}}" alt="">
+        <h3>{{profil.login}}</h3>
+        <a href="{% url 'my_subscribers' profil.login %}"><h3>подписчики</h3></a>
+        <h3 id='subskrbs'>{{profil.user_set.count}}</h3>
+        {% if user.id != profil.id%}
+        <a id='subscribe' href="{% url 'subscribe' profil.id %}"
+           style="{% if is_follof %}background-color:red{% endif%}">
+            {% if is_follof %}
+            <h3 style="color:white">отписаться</h3>
+            {%else%}
+            <h3>подписаться</h3></a>
+        {% endif%}
+        <a href="{% url 'messages' profil.id %}"><p>написать</p></a>
+        {%endif%}
+        <a href="{% url 'my_subscribe' profil.login %}" id='subskrb'><h3>подписок</h3></a>{{profil.follofing.count}}
+    </div>
+    {% if user.id == profil.id%}
+    <form action="{% url 'avatar' %}" method="post" enctype="multipart/form-data"> {% csrf_token %}
+        <input type="file" name="avatar">
+        <input type="submit">
+    </form>
+    <form action="{% url 'addPhoto' user.id %}" method="post" enctype="multipart/form-data"> {% csrf_token %}
+        <input type='file' name="myfile">
+        <input type='submit' value="добавить фото">
+    </form>
+    {% endif%}
+    <hr>
+    {% if post %}
+    <div id='allMyPost'>
+        {% for p in post %}
+        <div class="myPost">
+            <div>
+                <img src='{{p.post.url}}' width='200'
+                     height='300'>
+            </div>
+            <div>
+                <button style="border:0" class="like" data-url="{% url 'like' p.id %}">like</button>
+                <a class="like-count" href="{% url 'all_like' p.id %}">{{p.like.count}}</a>
+            </div>
+            <a href="{% url 'all_comment' p.id  %}">comments/{{p.comments.count}}</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+<script>
+$(document).ready(function(){
+ajax()
+subscribe()
+})
+
+</script>
+{% endif %}
+{% endblock%}

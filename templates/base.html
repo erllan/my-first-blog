@@ -1,0 +1,45 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Betta</title>
+    <link rel="stylesheet" href="{% static 'css/vk.css' %}">
+    <script src="{% static 'js/jquery.js' %}"></script>
+</head>
+<body>
+<header>
+    <a href="/"><h2>Betta</h2></a>
+    <form action="{% url 'search' %}" method="post" id = 'form-base'>
+        {% csrf_token %}
+        <input type='search' name="search">
+        <input type='submit' value="найти">
+    </form>
+    {% if user %}
+     <button id ='btnAllUser' ><a href="{% url 'all_user'%} ">все</a></button>
+
+    <div class="account">
+    <img src="{{ user.avatar.url}}" alt="">
+
+    </div>
+      {%endif%}
+</header>
+    <div style="display: none" id="dropdown">
+        <a href="{% url 'profil' user.login %}">account</a>
+        <a href="{% url 'login' %}">через другой акаунт</a>
+        <a href="{% url 'logout'%}">выйти</a>
+    </div>
+
+
+{% block content %}
+
+{% endblock%}
+<script src="{% static 'js/JS.js' %}"></script>
+<script>
+$(document).ready(function(){
+accountToggle()
+})
+</script>
+
+
+</body>
+</html>

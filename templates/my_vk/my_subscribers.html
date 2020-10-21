@@ -1,0 +1,15 @@
+{% extends 'base.html'%}
+{% block content %}
+<div class="allUser">
+{%if test%}
+{% for i in test%}
+<div class="all_user">
+<a href="{% url 'profil' i.login%}">{{i.login}}</a>
+    <img class="profil-img" src="{{ i.avatar.url}}" alt="">
+</div><br>
+{%endfor%}
+{%endif%}
+</div>
+{%endblock%}
+
+

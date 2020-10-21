@@ -1,0 +1,40 @@
+{% extends 'base.html'%}
+{% block content %}
+<div class="index">
+    {%if posts%}
+    {% for post in posts %}
+
+
+    <div class="post">
+        <div class="who">
+            <img src="{{post.user.avatar.url}}"> <a href="{% url 'profil' post.user.login%}"><h3>{{post.user.login}}</h3></a>
+        </div>
+        <div>
+            <img width='450' height='600' src='{{post.post.url}}' alt="">
+        </div>
+        <div>
+            <button style="border:0;" class="like" data-url="{% url 'like' post.id %}">like</button>
+            <a class="like-count" href="{% url 'all_like' post.id %}">{{post.like.count}}</a>
+        </div>
+        <a href="{% url 'all_comment' post.id  %}">comments/{{post.comments.count}}</a>
+        {{post.date}}
+    </div>
+
+
+    {%endfor%}
+    {% else%}
+    ВЫ НЕ ПОДПИСАНЫ
+    {%endif%}
+</div>
+<div id="data">
+</div>
+
+
+<script>
+$(document).ready(function(){
+   ajax()
+})
+
+</script>
+{% endblock%}
+
